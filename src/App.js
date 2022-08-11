@@ -1,13 +1,22 @@
 import React from 'react'
-import { Abaut } from './view/Abaut.jsx';
-import {Home} from "./view/Home.jsx"
+import { Login } from './view/login';
+import {Route, Routes } from "react-router-dom";
+import { Register } from './view/register';
+import { Landing } from './view/Landing';
+import { Home } from './view/Home';
 import { LandingGame } from './view/Landing-game.jsx';
-
 
 function App() {
   return (
     <div className='h-full' >
-      <Abaut/> 
+      <Routes>
+        <Route path="/" element = {<Landing/>} />
+        <Route path="/landing" element = {<LandingGame/> } />
+        <Route path="/login" element = {<Login/>} />
+        <Route path="/register" element={<Register/>} />
+        <Route path="/home" element = {<Home/>} />
+      </Routes>
+
     </div>
   );
 }

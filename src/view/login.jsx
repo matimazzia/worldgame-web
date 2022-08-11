@@ -1,5 +1,4 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import { useDispatch, connect, useSelector } from "react-redux";
 import validate from '../utils/validateL';
@@ -10,8 +9,7 @@ import {
   getAllCountries,
   getUser,
 } from "../redux/actions/index";
-//import { touchSound } from '../utils/sounds';
-import { Register } from './Register';
+import { useNavigate } from 'react-router-dom';
 export const Login = ({user}) => {
     const allUser = useSelector((state) => state.users);
     const isSpanish= useSelector((state) => state.isSpanish);
@@ -32,6 +30,7 @@ export const Login = ({user}) => {
   const [banned, setBanned] = useState(false);
   const [logErr, setLogErr] = useState("");
   const login = useSelector((state) => state.login);
+  const navigate = useNavigate();
 
   const setLogin_ = async (value) => {
     try {
@@ -39,7 +38,6 @@ export const Login = ({user}) => {
     } catch (error) {
       console.error("AsyncStorage#setItem error: " + error.message);
     }
-
   };
 
   let log = async (_input) => {
@@ -65,9 +63,6 @@ export const Login = ({user}) => {
         (e) => e.username.toLowerCase() === _input.username.toLowerCase()
       );
       let siLogin = false;
-      // if(login.Request && login.Request?.username?.toLowerCase() === input.username.toLowerCase() && login?.Request?.first === false){
-      //   siLogin = true;
-      // }
       console.log("user: ", User);
       console.log("user: ", allUser);
       if (User && User.state === false) {
@@ -117,15 +112,14 @@ export const Login = ({user}) => {
         password: "",
       });
       setLogErr("");
-      //navigation.navigate("Home");
+      navigate('/home')
     } else if (pressed === true && first === true) {
       const User = allUser.Request.find(
         (e) => e.username.toLowerCase() === inputa.username.toLowerCase()
       );
       if (User) {
-        //navigation.navigate("Instructions");
+        navigate('/home')
         let logear = user?.Request;
-        logear.first = false;
         dispatch(
           setLogin({
             logear,
@@ -158,7 +152,6 @@ export const Login = ({user}) => {
     if (inputa.password === "" || inputa.username === "") {
       setLogErr("");
     }
-    //console.log("useruseruseruseruseru", allUser);
   }, []);
  
   return (
@@ -222,7 +215,7 @@ export const Login = ({user}) => {
             {isSpanish ? "Si no tenes cuenta, ": "If you do not have an account, "}
               <a
               className={`text-blue-200 text-center font-bold cursor-pointer mt-5`}
-              onClick={() => {;setInput({
+              onClick={() => {navigate('/register');setInput({
                 username: "",
                 password: "",
               });}}
