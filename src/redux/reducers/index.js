@@ -1,6 +1,5 @@
 import { type } from "../actions/types";
 
-
 const initialState = {
   game: [],
   countries: [],

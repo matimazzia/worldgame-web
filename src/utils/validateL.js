@@ -1,7 +1,8 @@
 let validate = (type, event,isSpanish) => {
-  let reg = new RegExp(/(?!.*[\.\-\_]{5,})^[a-zA-Z0-9\.\-\_]{0,20}$/);
+  let reg = /^[a-zA-Z0-9_]{5,}[a-zA-Z]+[0-9]*$/;
+  var usernameRegex = /^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]+$/
   if (type === "username") {
-    if (reg.test(event) === false) {
+    if (!usernameRegex.test(event)) {
       return isSpanish?"Usuario invalido": "Invalid User";
     }
     return "";
