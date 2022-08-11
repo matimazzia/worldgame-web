@@ -44,7 +44,7 @@ export const LandingGame = () => {
                     }
                 } else {
                     setTimeout(()=>{
-                        //navigation.navigate("Login");
+                        //navigation.navigate("Login");,
                     }, 6000)
                 }
             } else {
