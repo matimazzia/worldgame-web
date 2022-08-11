@@ -182,6 +182,18 @@ export const Register = () => {
                 </span>
                 {isSpanish ? "Registrarse" : "Register"}
               </button>
+              <h4 className={`text-white text-center font-bold mt-5`}>
+              {isSpanish ? 'Si ya tenes cuenta' : "If you have acount" }
+              <a
+              className={`text-blue-200 text-center font-bold cursor-pointer mt-5`}
+              onClick={() => {;setInput({
+                username: "",
+                password: "",
+              });}}
+            >
+              &nbsp;{isSpanish ? 'Ingresa' : "Login" }
+            </a>
+          </h4>
             </div>
           </form>
         </div>

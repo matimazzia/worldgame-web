@@ -213,6 +213,18 @@ export const Login = ({user}) => {
               </button>
             </div>
           </form>
+          <h4 className={`text-white text-center font-bold mt-5`}>
+            {isSpanish ? "Si no tenes cuenta, ": "If you do not have an account, "}
+              <a
+              className={`text-blue-200 text-center font-bold cursor-pointer mt-5`}
+              onClick={() => {;setInput({
+                username: "",
+                password: "",
+              });}}
+            >
+             &nbsp;{isSpanish ? "Registrarse": "Register"}
+            </a>
+          </h4>
         </div>
       </div>
     </div>
