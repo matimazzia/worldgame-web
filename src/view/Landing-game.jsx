@@ -1,6 +1,7 @@
 import React from 'react'
-import video from "../assets/LandingGame.mp4"
+import video from "../assets/landingGame.mp4"
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { getUser, setLogin, setStat, getAllCountries } from '../redux/actions'
@@ -11,6 +12,7 @@ export const LandingGame = () => {
     const [al, setAl] = useState(true);
     const navigate = useNavigate();
     let [first , setFirst] = useState(true);
+    const navigate = useNavigate();
     const dispatch = useDispatch()
 
 
@@ -46,7 +48,8 @@ export const LandingGame = () => {
                     }
                 } else {
                     setTimeout(()=>{
-                      navigate("/login");
+                        navigate("/login");
+
                     }, 6000)
                 }
             } else {
