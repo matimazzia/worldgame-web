@@ -1,21 +1,30 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import red from "../../assets/red.png";
 import green from "../../assets/green.png";
 import Modal from "react-modal";
 import { FaInfoCircle, FaUser } from "react-icons/fa"
 import { BsFillGearFill } from "react-icons/bs";
 import { IoIosPodium } from "react-icons/io";
+import { logOut } from "../../redux/actions";
 
 export const Navbar = () => {
   Modal.setAppElement(document.getElementById("root"));
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const isSpanish = useSelector((state) => state.isSpanish);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function openModal() {
     setIsOpen(true);
+  }
+
+  async function logout() {
+    await localStorage.removeItem('User')
+    dispatch(logOut());
+    navigate("/login");
   }
 
   function closeModal() {
@@ -205,8 +214,9 @@ export const Navbar = () => {
         <button
           className={`flex rounded-full mr-3 w-24 h-16 justify-center items-center bg-white`}
           onClick={() => {
-            openModal();
-          }}
+            logout();
+          }
+          }
         >
           <div>
             <BsFillGearFill fontSize="2.5em"/>

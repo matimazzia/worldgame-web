@@ -1,8 +1,13 @@
 import React from "react";
 import video from "../assets/animation1.mp4";
+import { useNavigate } from 'react-router-dom';
 import { NavbarLanding } from "./components/Navbar.landing";
+import { useEffect } from "react";
 
 export const Landing = () => {
+  const navigate = useNavigate();
+  useEffect(() => {},[])
+
   return (
     <div>
      <NavbarLanding />
@@ -32,14 +37,14 @@ export const Landing = () => {
       <footer className="p-4 rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 bg-gray-800 fixed bottom-0 w-full h-24">
         <span className="text-sm  sm:text-center text-gray-400">
           © 2022{" "}
-          <a href="https://flowbite.com/" classname="hover:underline">
+          <a  classname="hover:underline">
             WorldGame™
           </a>
           . All Rights Reserved.
         </span>
         <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6 ">
+            <a href="abaut" onClick={navigate("/about")} className="mr-4 hover:underline md:mr-6 cursor-pointer">
               About
             </a>
           </li>
