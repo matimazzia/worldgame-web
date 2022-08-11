@@ -5,7 +5,7 @@ import { gameAction, getAllCountries, PostGame, giveUp, newGame, setCountrie } f
 // import { setTestDeviceIDAsync, AdMobInterstitial } from "expo-ads-admob"; change for ads in react web
 // import {AutocompleteDropdown} from 'react-native-autocomplete-dropdown'; change for other autocomplete
 import { BsArrowClockwise, BsFlagFill, BsFillArrowUpSquareFill } from "react-icons/bs";
-import { SearchBox } from './SearchBox';
+import Turnstone from 'turnstone'
 
 export const Footer = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,38 @@ export const Footer = () => {
   const [win, sein] = useState(false)
   const GV = useSelector((state) => state.giveUp);
   const [modalVisible, setModalVisible] = useState(false);
+  const countriesNames = []
+  const listbox = [
+      {
+        data: countriesNames,
+        searchType: "startswith"
+      }
+  ];
+  const styles = {
+      input: 'w-full border py-4 px-4 text-lg outline-none rounded-3xl',
+      listbox: 'bg-neutral-900 w-full text-slate-50 rounded-3xl',
+      highlightedItem: 'bg-neutral-800',
+      query: 'text-oldsilver-800 placeholder:text-slate-600',
+      typeahead: 'text-slate-500',
+      clearButton:
+        'absolute inset-y-0 text-lg right-0 w-10 inline-flex items-center justify-center bg-netural-700 hover:text-red-500',
+      noItems: 'cursor-default text-center my-20',
+      match: 'font-semibold',
+      groupHeading: 'px-5 py-3 text-pink-500',
+  }
+  const Item = ({ item }) => {
+      return (
+        <div className='flex items-center cursor-pointer px-5 py-6 rounded-3xl'>
+          <p>{item}</p>
+        </div>
+      )
+  }
 
+  useEffect(()=>{
+    countries.forEach((el)=>{
+      countriesNames.push(el.name)
+    })
+  },[countries])
   useEffect(() => {
     dispatch(getAllCountries());
   }, []);
@@ -38,7 +69,7 @@ export const Footer = () => {
       setCountryOfDay(countrie);
       dispatch(setCountrie(countrie));
     }
-  }, [win]);
+  }, [win, countries]);
 
   // async function chargeAds(){
   //   await setTestDeviceIDAsync('EMULATOR').then(()=>{},()=>{});
@@ -74,7 +105,7 @@ export const Footer = () => {
           dispatch(gameAction(countryOfDay, attemp));
         }
         if(attemp.name.toLowerCase() === countryOfDay.name.toLowerCase()){
-          dispatch(PostGame({countrie: countryOfDay.name, winned: true, time: 120, attempts: listOfAttemps.length + 1, UserId: login.Request.id, points: 5000})) 
+          dispatch(PostGame({countrie: countryOfDay.name, winned: true, time: 120, attempts: listOfAttemps.length + 1, UserId: 1, points: 5000})) 
           sein(true)
           // if(!(login.Request.premium)){
           //   console.log("a mostrar ads")
@@ -95,7 +126,7 @@ export const Footer = () => {
   const handleGiveUp = (e) =>{
     e.preventDefault();
     dispatch(
-      PostGame({countrie: countryOfDay.name, winned: false, time: 120, attempts: listOfAttemps.length , UserId: login.Request.id, points:5000})
+      PostGame({countrie: countryOfDay.name, winned: false, time: 120, attempts: listOfAttemps.length , UserId: login?.Request?.id ? login.Request.id : 2 , points:5000})
       );
       sein(true)
       // if(!(login.Request.premium)){
@@ -140,7 +171,7 @@ export const Footer = () => {
           </div>
         <button
           className={`flex rounded-full ml-3 mr-3 w-24 h-16 justify-center items-center bg-white`}
-          onClick={!win ? (e) => {setModalVisible(true);} : () => { sein(false); dispatch(newGame()); dispatch(giveUp(false));}}
+          onClick={!win ? (e) => {handleGiveUp(e);} : () => { sein(false); dispatch(newGame()); dispatch(giveUp(false));}}
         >
           { win ?
             <div>
@@ -152,25 +183,22 @@ export const Footer = () => {
             </div>
           }
         </button>
-        {/* <AutocompleteDropdown
-            clearOnFocus={false}
-            closeOnBlur={true}
-            closeOnSubmit={true}
-            textInputProps={{
-              placeholder: isSpanish?"Introduzca un país":"Enter a country...",
-              className: {color: "#000"},
-            }}
-            direction={"up"}
-            onSelectItem={el => setInput(el?.title)}
-            onChangeText={text => setInput(text)}
-            suggestionsListMaxHeight={100}
-            debounce={200}
-            dataSet={arrAutocomplete}
-            showChevron={false}
-            emptyResultText={"Intenta nuevamente..."}
-            containerclassName={`mr-5 w-40 h-10 rounded-lg bg-white text-lg`}
-        /> */}
-        <SearchBox/>
+        <Turnstone
+          id='search'
+          name='search'
+          autoFocus={true}
+          typeahead={true}
+          clearButton={true}
+          debounceWait={250}
+          listboxIsImmutable={false}
+          maxItems={2}
+          noItemsMessage="No results..."
+          placeholder={isSpanish ? "Introduce un país..." : 'Enter a country...'}
+          listbox={listbox}
+          styles={styles}
+          Item={Item}
+          onChange={(text) => {setInput(text);}}
+        />
         <button
           className={`flex rounded-full ml-3 mr-3 w-24 h-16 justify-center items-center bg-white`}
           onClick={!win ? (e) => {handleSubmit(e);}: () => {console.log(12);  sein(false); dispatch(newGame()); dispatch(giveUp(false));}}
