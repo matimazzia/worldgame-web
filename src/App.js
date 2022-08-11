@@ -7,7 +7,7 @@ import { Landing } from './view/Landing';
 function App() {
   return (
     <div className='h-full' >
-      <Landing/>
+      <Login/>
       
     </div>
   );

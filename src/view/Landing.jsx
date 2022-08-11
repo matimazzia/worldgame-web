@@ -1,15 +1,21 @@
 import React from "react";
-import video from "../assets/Secuencia01.mp4";
+import video from "../assets/animation1.mp4";
 import { NavbarLanding } from "./components/Navbar.landing";
 
 export const Landing = () => {
   return (
     <div>
+     <NavbarLanding />
       <div className="video">
+        <video width="750" height="500" controls style={{display:"none"}}>
+      <source src={video} type="video/mp4"/>
+     </video>
         <video
           loop
           autoPlay
+          controls={false}
           style={{
+            
             position: "absolute",
             width: "100%",
             left: "50%",
@@ -23,7 +29,6 @@ export const Landing = () => {
           <source src={video} type="video/mp4"></source>
         </video>
       </div>
-        <NavbarLanding />
       <footer className="p-4 rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 bg-gray-800 fixed bottom-0 w-full h-24">
         <span className="text-sm  sm:text-center text-gray-400">
           © 2022{" "}
