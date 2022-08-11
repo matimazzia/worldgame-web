@@ -1,5 +1,6 @@
 import React from "react";
 import video from "../assets/animation1.mp4";
+import { useNavigate } from 'react-router-dom';
 import { NavbarLanding } from "./components/Navbar.landing";
 
 export const Landing = () => {
