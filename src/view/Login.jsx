@@ -1,5 +1,4 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import { useDispatch, connect, useSelector } from "react-redux";
 import validate from '../utils/validateL';
@@ -113,15 +112,14 @@ export const Login = ({user}) => {
         password: "",
       });
       setLogErr("");
-      //navigate('/home')
+      navigate('/home')
     } else if (pressed === true && first === true) {
       const User = allUser.Request.find(
         (e) => e.username.toLowerCase() === inputa.username.toLowerCase()
       );
       if (User) {
-        //navigate('/instructions')
+        navigate('/home')
         let logear = user?.Request;
-        logear.first = false;
         dispatch(
           setLogin({
             logear,
@@ -217,7 +215,7 @@ export const Login = ({user}) => {
             {isSpanish ? "Si no tenes cuenta, ": "If you do not have an account, "}
               <a
               className={`text-blue-200 text-center font-bold cursor-pointer mt-5`}
-              onClick={() => {;setInput({
+              onClick={() => {navigate('/register');setInput({
                 username: "",
                 password: "",
               });}}

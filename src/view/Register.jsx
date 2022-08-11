@@ -61,7 +61,7 @@ export const Register = () => {
         });
         dispatch(getUser());
         dispatch(first(true))
-        //navigate('/instructions')
+        navigate('/home')
       }
     }
   
@@ -186,7 +186,7 @@ export const Register = () => {
               {isSpanish ? 'Si ya tenes cuenta' : "If you have acount" }
               <a
               className={`text-blue-200 text-center font-bold cursor-pointer mt-5`}
-              onClick={() => {;setInput({
+              onClick={() => {navigate('/login');setInput({
                 username: "",
                 password: "",
               });}}

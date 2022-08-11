@@ -1,5 +1,5 @@
 import React from 'react'
-import { Login } from './view/Login';
+import { Login } from './view/login';
 import {Route, Routes } from "react-router-dom";
 import { Register } from './view/register';
 import { Landing } from './view/Landing';
@@ -10,7 +10,6 @@ function App() {
   return (
     <div className='h-full' >
       <Routes>
-      <LandingGame/> 
         <Route path="/" element = {<Landing/>} />
         <Route path="/landing" element = {<LandingGame/> } />
         <Route path="/login" element = {<Login/>} />
