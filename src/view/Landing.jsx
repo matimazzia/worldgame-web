@@ -2,9 +2,11 @@ import React from "react";
 import video from "../assets/animation1.mp4";
 import { useNavigate } from 'react-router-dom';
 import { NavbarLanding } from "./components/Navbar.landing";
+import { useEffect } from "react";
 
 export const Landing = () => {
   const navigate = useNavigate();
+  useEffect(() => {},[])
 
   return (
     <div>
@@ -42,7 +44,7 @@ export const Landing = () => {
         </span>
         <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
           <li>
-            <a href="about" onClick={navigate("/about")} className="mr-4 hover:underline md:mr-6 cursor-pointer">
+            <a href="abaut" onClick={navigate("/about")} className="mr-4 hover:underline md:mr-6 cursor-pointer">
               About
             </a>
           </li>
