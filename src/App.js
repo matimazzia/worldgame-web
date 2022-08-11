@@ -1,14 +1,10 @@
-
-import { Login } from './view/Login';
-import {Route, Routes } from "react-router-dom";
-import { Register } from './view/Register';
-import { Landing } from './view/Landing';
+import React from 'react'
+import {Home} from "./view/Home.jsx"
 
 function App() {
   return (
     <div className='h-full' >
-      <Login/>
-      
+      <Login/> 
     </div>
   );
 }
