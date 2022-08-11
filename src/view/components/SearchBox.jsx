@@ -6,10 +6,9 @@ export const SearchBox = () => {
     const countries = useSelector((state) => state.countries);
     const countriesNames = []
     const isSpanish = useSelector((state) => state.isSpanish);
-    const aux = ["Argentina", "Albania", "Uruguay", "España"]
     const listbox = [
         {
-          data: aux,
+          data: countriesNames,
           searchType: "startswith"
         }
     ];
@@ -25,7 +24,6 @@ export const SearchBox = () => {
         match: 'font-semibold',
         groupHeading: 'px-5 py-3 text-pink-500',
     }
-
     const Item = ({ item }) => {
         return (
           <div className='flex items-center cursor-pointer px-5 py-6 rounded-3xl'>
@@ -35,7 +33,7 @@ export const SearchBox = () => {
     }
 
     useEffect(()=>{
-      countriesNames.map((el)=>{
+      countries.forEach((el)=>{
         countriesNames.push(el.name)
       })
     },[countries])
@@ -55,7 +53,7 @@ export const SearchBox = () => {
       listbox={listbox}
       styles={styles}
       Item={Item}
-      onSelect={(text)=>{console.log(text);}}
+      onChange={(text)=>{console.log(text);}}
     />
   )
 }
