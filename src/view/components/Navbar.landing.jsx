@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 export const NavbarLanding = () => {
 const isSpanish= useSelector((state) => state.isSpanish)
     return (
-    <div className="h-32 w-full bg-[#bcbcbc] flex items-center justify-between shadow-lg">
+    <div className="h-32 w-full bg-[#bcbcbc] flex items-center justify-between shadow-lg fixed top-0 rounded-b-lg">
         <h1 className="font-sans text-black text-2xl mb-2 ml-10 pt-3">{isSpanish ?"Bienvenidos a Worldgame!": "Welcome to Worldgame!"}</h1>
         <div className="flex items-center justify-between">
             
