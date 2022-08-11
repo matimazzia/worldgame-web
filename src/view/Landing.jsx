@@ -32,7 +32,7 @@ export const Landing = () => {
       <footer className="p-4 rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 bg-gray-800 fixed bottom-0 w-full h-24">
         <span className="text-sm  sm:text-center text-gray-400">
           © 2022{" "}
-          <a href="https://flowbite.com/" classname="hover:underline">
+          <a  classname="hover:underline">
             WorldGame™
           </a>
           . All Rights Reserved.
