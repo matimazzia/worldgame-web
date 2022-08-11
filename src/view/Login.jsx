@@ -10,8 +10,7 @@ import {
   getAllCountries,
   getUser,
 } from "../redux/actions/index";
-//import { touchSound } from '../utils/sounds';
-import { Register } from './Register';
+import { useNavigate } from 'react-router-dom';
 export const Login = ({user}) => {
     const allUser = useSelector((state) => state.users);
     const isSpanish= useSelector((state) => state.isSpanish);
@@ -32,6 +31,7 @@ export const Login = ({user}) => {
   const [banned, setBanned] = useState(false);
   const [logErr, setLogErr] = useState("");
   const login = useSelector((state) => state.login);
+  const navigate = useNavigate();
 
   const setLogin_ = async (value) => {
     try {
@@ -39,7 +39,6 @@ export const Login = ({user}) => {
     } catch (error) {
       console.error("AsyncStorage#setItem error: " + error.message);
     }
-
   };
 
   let log = async (_input) => {
@@ -65,9 +64,6 @@ export const Login = ({user}) => {
         (e) => e.username.toLowerCase() === _input.username.toLowerCase()
       );
       let siLogin = false;
-      // if(login.Request && login.Request?.username?.toLowerCase() === input.username.toLowerCase() && login?.Request?.first === false){
-      //   siLogin = true;
-      // }
       console.log("user: ", User);
       console.log("user: ", allUser);
       if (User && User.state === false) {
@@ -117,13 +113,13 @@ export const Login = ({user}) => {
         password: "",
       });
       setLogErr("");
-      //navigation.navigate("Home");
+      //navigate('/home')
     } else if (pressed === true && first === true) {
       const User = allUser.Request.find(
         (e) => e.username.toLowerCase() === inputa.username.toLowerCase()
       );
       if (User) {
-        //navigation.navigate("Instructions");
+        //navigate('/instructions')
         let logear = user?.Request;
         logear.first = false;
         dispatch(
@@ -158,7 +154,6 @@ export const Login = ({user}) => {
     if (inputa.password === "" || inputa.username === "") {
       setLogErr("");
     }
-    //console.log("useruseruseruseruseru", allUser);
   }, []);
  
   return (
