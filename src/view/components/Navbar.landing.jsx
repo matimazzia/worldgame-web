@@ -16,7 +16,7 @@ const isSpanish= useSelector((state) => state.isSpanish)
         <button className=" w-full h-10 mr-5 py-2 px-8  text-sm font-medium rounded-md text-white bg-[#023047] hover:bg-[#4f8cc6]  hover:text-black " >
                 <a href="https://admin-v6.vercel.app/">Admin</a>
         </button>
-        <button onClick={() => navigate('/login')} className=" w-full h-10 mr-5 py-2 px-8  text-sm font-medium rounded-md text-white bg-[#023047] hover:bg-[#4f8cc6] hover:text-black ">
+        <button onClick={() => navigate('/landing')} className=" w-full h-10 mr-5 py-2 px-8  text-sm font-medium rounded-md text-white bg-[#023047] hover:bg-[#4f8cc6] hover:text-black ">
               SignIn
         </button>
         </div>
