@@ -2,7 +2,8 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import { useDispatch, connect, useSelector } from "react-redux";
-import validate from "../utils/validateL";
+import validate from '../utils/validateL';
+import img from "../assets/Worldgame.png"
 import {
   postLogin,
   setLogin,
@@ -11,13 +12,13 @@ import {
 } from "../redux/actions/index";
 //import { touchSound } from '../utils/sounds';
 import { Register } from './Register';
-export const Login = ({user, postLogin}) => {
+export const Login = ({user}) => {
     const allUser = useSelector((state) => state.users);
     const isSpanish= useSelector((state) => state.isSpanish);
     //const soundOn = useSelector((state) => state.soundOn);
     const first = useSelector((state) => state.first);
     const dispatch = useDispatch();
-  const [input, setInput] = useState({
+  const [inputa, setInput] = useState({
     username: "",
     password: "",
   });
@@ -73,19 +74,22 @@ export const Login = ({user, postLogin}) => {
         setLogErr(isSpanish ? "Usuario baneado por favor contactarse con el administrador ":"Banned user, please contact the administrator.");
         setBanned(true); 
       } else if (User && User.state === true) {
-        var c = await postLogin(_input);
-        console.log("c: ", c);
-        if (c.payload.Request !== "No se inicio sessión") {
-          dispatch(setLogin(User));
-          setLogin_(_input);
-          setPressed(true);
-        } else {
-          setTimeout(() => {
-            if (logErr !== "Banned user, please contact the administrator."|| logErr !=="Usuario baneado por favor contactarse con el administrador ") {
-              setLogErr(isSpanish ? "Usuario o contraseña invalido"  : "Invalid user or password");
-            }
-          }, 700);
-        }
+        dispatch(
+            postLogin(_input)
+        ).then(data =>{
+            console.log(data)
+            if (data.payload.Request.hasOwnProperty("authorization")) {
+                dispatch(setLogin(User));
+                setLogin_(_input);
+                setPressed(true);
+              } else {
+                setTimeout(() => {
+                  if (logErr !== "Banned user, please contact the administrator."|| logErr !=="Usuario baneado por favor contactarse con el administrador ") {
+                    setLogErr(isSpanish ? "Usuario o contraseña invalido"  : "Invalid user or password");
+                  }
+                }, 700);
+              }
+        })
       }
     }
     setPressed(true);
@@ -93,18 +97,18 @@ export const Login = ({user, postLogin}) => {
 
   function handleInputChange(type, text) {
     setInput({
-      ...input,
+      ...inputa,
       [type]: text,
     });
     setLogErr("");
-    setErr({ ...err, [type]: validate(type, text,isSpanish) });
+    setErr({ ...err, [type]:validate(type, text,isSpanish) });
     setPressed(false);
   }
 
   useEffect(() => {
     if (
       pressed === true &&
-      user.Request &&
+      user?.Request &&
       banned === false &&
       first === false
     ) {
@@ -116,11 +120,11 @@ export const Login = ({user, postLogin}) => {
       //navigation.navigate("Home");
     } else if (pressed === true && first === true) {
       const User = allUser.Request.find(
-        (e) => e.username.toLowerCase() === input.username.toLowerCase()
+        (e) => e.username.toLowerCase() === inputa.username.toLowerCase()
       );
       if (User) {
         //navigation.navigate("Instructions");
-        let logear = user.Request;
+        let logear = user?.Request;
         logear.first = false;
         dispatch(
           setLogin({
@@ -135,14 +139,14 @@ export const Login = ({user, postLogin}) => {
         }, 700);
       }
     }
-    if (pressed === true && !user.Request) {
+    if (pressed === true && !user?.Request) {
       setTimeout(() => {
         if (logErr !== "Banned user, please contact the administrator." || logErr !=="Usuario baneado por favor contactarse con el administrador ") {
           setLogErr(isSpanish ? "Usuario o contraseña invalido"  :" Invalid user or password");
         }
       }, 700);
     }
-    if (input.password === "" || input.username === "") {
+    if (inputa.password === "" || inputa.username === "") {
       setLogErr("");
     }
     setPressed(false);
@@ -151,99 +155,71 @@ export const Login = ({user, postLogin}) => {
   useEffect(() => {
     dispatch(getAllCountries());
     dispatch(getUser());
-    if (input.password === "" || input.username === "") {
+    if (inputa.password === "" || inputa.username === "") {
       setLogErr("");
     }
     //console.log("useruseruseruseruseru", allUser);
   }, []);
  
   return (
-    <div>
-        <img/>
-        <div>
-            <h2 style={tw`text-white text-lg text-left mb-1`} >{isSpanish ? "Usuario" : "User"}</h2>
-            <input
-            type="text"
-            key={"user"}
-            value={input.username}
-            onChangeText={(e) => handleInputChange("username", e)}
-            placeholderTextColor="#6f6f6f"
-            style={tw`pl-3 mb-1 w-70 h-10 rounded-lg bg-[#C0D6DF] text-gray-900 shadow-lg`}
-            ></input>
-            <h4 style={tw`text-red-500 text-xs text-left mt-1 mb-1`}
-            >{err.username}</h4>
-        </div>
-        <div>
-        <h2 style={tw`text-white text-lg text-left mb-1`}>{isSpanish ? "Contraseña" : "Password"}</h2>
-            <input
-            type="text"
-            placeholder={isSpanish ? "Contraseña..." : "Password..."}
-            key={"password"}
-            value={input.password}
-            onChangeText={(e) => handleInputChange("password", e)}
-            placeholderTextColor="#6f6f6f"
-            style={tw`pl-3 mb-1 w-70 h-10 rounded-lg bg-[#C0D6DF] text-gray-900 shadow-lg`}
-            ></input>
-            <h4 style={tw`text-red-500 text-xs text-left mt-1 mb-1`}
-            >{err.password}</h4>
-        </div>
-        <button
-        style={tw`flex flex-row justify-around items-center bg-[#FFFFFF] px-8 py-2 rounded-xl w-60 h-12 shadow-lg`}
-        disabled={true}
-        // onPress={() => {touchSound(soundOn);}}
-        >
-            <div style={tw`w-6 h-6 mr-5`}>
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 326667 333333"
-                shapeRendering="geometricPrecision"
-                textRendering="geometricPrecision"
-                imageRendering="optimizeQuality"
-                fillRule="evenodd"
-                clipRule="evenodd"
-              >
-                    <path
-                        d="M326667 170370c0-13704-1112-23704-3518-34074H166667v61851h91851c-1851 15371-11851 38519-34074 54074l-311 2071 49476 38329 3428 342c31481-29074 49630-71852 49630-122593m0 0z"
-                        fill="#4285f4"
+    <div className="bg-[#005f73] h-full">
+      <div className="min-h-full flex items-center justify-center py-40 px-4 sm:px-6 lg:px-8 bg-[#005f73]">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <img
+              className="mx-auto h-60"
+              src={img}
+              alt="Workflow"
+            />
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-white">{isSpanish? "Ingresá a tu cuenta.":"Sign in to your account"}</h2>
+          </div>
+          <form className="mt-8 space-y-6" action="#"  onSubmit={() => {log(inputa);}}>
+            <input type="hidden" name="remember" defaultValue="true" />
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <label htmlFor="username" className="sr-only">
+                    {isSpanish ? "Usuario" : "User"}
+                </label>
+                <input
+                  type="text"
+                  className="appearance-none rounded-md  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  placeholder="Username..."
+                  value={inputa.username}
+                  onChange={(e) =>{handleInputChange("username", e.target.value)}}
                 />
-                    <path
-                        d="M166667 333333c44999 0 82776-14815 110370-40370l-52593-40742c-14074 9815-32963 16667-57777 16667-44074 0-81481-29073-94816-69258l-1954 166-51447 39815-673 1870c27407 54444 83704 91852 148890 91852z"
-                        fill="#34a853"
-                />
-                    <path
-                        d="M71851 199630c-3518-10370-5555-21482-5555-32963 0-11482 2036-22593 5370-32963l-93-2209-52091-40455-1704 811C6482 114444 1 139814 1 166666s6482 52221 17777 74814l54074-41851m0 0z"
-                        fill="#fbbc04"
-                />
-                    <path
-                        d="M166667 64444c31296 0 52406 13519 64444 24816l47037-45926C249260 16482 211666 1 166667 1 101481 1 45185 37408 17777 91852l53889 41853c13520-40185 50927-69260 95001-69260m0 0z"
-                        fill="#ea4335"
-                />
-                </svg>
-            </div>
-            <h2 style={tw`text-base font-bold`}>{isSpanish ? 'Iniciar con google' : "Sing In whit Google" }</h2>
-        </button>
-        <div style={tw`mt-10`}>
-                <h3 style={tw`text-white text-center font-bold`}>
-                {isSpanish ? "Si no tenes cuenta, ": "If you do not have an account, "}
-                <h3
-                style={tw`text-blue-200 text-center font-bold`}
-                onPress={() => {<Navigate to={<Register/>}/>;setPressed(false);setInput({
-                username: "",
-                password: "",
-              });console.log("touchSound(soundOn)");}}
-            >
-              &nbsp;{isSpanish ? "Registrarse": "Register"}
-                </h3>
-            </h3>
-        </div>
-    </div>
-  )
-}
+                <h4 className={`text-red-500 text-xs text-left mt-2 mb-3`}
+                >{err.username}</h4>
+              </div>
+              <div>
+                <label htmlFor="password" className="sr-only">
+                {isSpanish ? "Contraseña" : "Password"}
+                </label>
+                <input
+                  type="password"
+                  onChange={(e) => handleInputChange("password", e.target.value)}
+                  placeholder={isSpanish ? "Contraseña..." : "Password..."}
+                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 
-function mapStateToProps(state) {
-    return {
-      user: state.login,
-    };
-  }
-  
-  export default connect(mapStateToProps, { postLogin })(Login);
+                />
+                <h4 className={`text-red-500 text-xs text-left mt-2 mb-3`}
+                >{err.password}</h4>
+              </div>
+            </div>
+            <div>
+            <h4 className={`text-red-500 text-xs text-center mb-3`}
+                >{logErr}</h4>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#023047] hover:bg-[#a2d2ff] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                </span>
+                {isSpanish ? "INICIAR SESIÓN" : "LOGIN"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  )}
+
