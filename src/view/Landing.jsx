@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { NavbarLanding } from "./components/Navbar.landing";
 
 export const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
      <NavbarLanding />
@@ -40,7 +42,7 @@ export const Landing = () => {
         </span>
         <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-400 sm:mt-0">
           <li>
-            <a href="#" className="mr-4 hover:underline md:mr-6 ">
+            <a href="about" onClick={navigate("/about")} className="mr-4 hover:underline md:mr-6 cursor-pointer">
               About
             </a>
           </li>

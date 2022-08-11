@@ -5,7 +5,7 @@ import { Register } from './view/register';
 import { Landing } from './view/Landing';
 import { Home } from './view/Home';
 import { LandingGame } from './view/Landing-game.jsx';
-
+import{Abaut} from "./view/Abaut"
 function App() {
   return (
     <div className='h-full' >
@@ -15,6 +15,7 @@ function App() {
         <Route path="/login" element = {<Login/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/home" element = {<Home/>} />
+        <Route path="/about" element={<Abaut/>} />
       </Routes>
 
     </div>

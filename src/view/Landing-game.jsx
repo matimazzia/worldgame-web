@@ -1,5 +1,5 @@
 import React from 'react'
-import video from "../assets/landingGame.mp4"
+import video from "../assets/LandingGame.mp4"
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
